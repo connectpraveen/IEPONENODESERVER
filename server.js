@@ -1,7 +1,11 @@
 //server.js
 var express=require("express");
 var app=express();
-
+var bodyParser = require('body-parser'); 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 // Add headers
 app.use(function (req, res, next) {
 
@@ -26,6 +30,7 @@ app.use(function (req, res, next) {
 app.get('/',function(req,res){
     res.send('Hello, this server will handle Braintree payments! ');
 });
+
 //braintree
 var braintree = require("braintree");
 
@@ -50,16 +55,17 @@ app.get("/client_token", function (req, res) {
     });
 });  
 app.post("/checkout", function (req, res) {
-    var nonceFromTheClient = req.body.payment_method_nonce;
-    // Use payment method nonce here
-
-    gateway.transaction.sale({
-        amount: "10.00",
+   var nonceFromTheClient = req.body.nonce;
+   var ChargedAmount=req.body.chargeAmount;
+     gateway.transaction.sale({
+        amount: ChargedAmount,
         paymentMethodNonce: nonceFromTheClient,
         options: {
           submitForSettlement: true
         }
       }, function (err, result) {
+        console.log(result);
+        res.send(result);
       });  
 
   });
