@@ -55,18 +55,39 @@ app.get("/client_token", function (req, res) {
     });
 });  
 app.post("/checkout", function (req, res) {
+  var uniq=new Date().getTime();
    var nonceFromTheClient = req.body.nonce;
-   var ChargedAmount=req.body.chargeAmount;
-     gateway.transaction.sale({
-        amount: ChargedAmount,
-        paymentMethodNonce: nonceFromTheClient,
-        options: {
-          submitForSettlement: true
-        }
-      }, function (err, result) {
-        console.log(result);
-        res.send(result);
-      });  
+   gateway.customer.create({
+    firstName:'IEPONE',
+    lastName:uniq,
+    paymentMethodNonce: nonceFromTheClient
+  }, function (err, result) {
+    result.success;
+    // true
+  
+    result.customer.id;
+    // e.g 160923
+    gateway.subscription.create({
+      paymentMethodToken: result.customer.paymentMethods[0].token,
+      planId: "jkxg"
+    }, function (err, result) {
+      res.send(result);
+    });
+    
+    // e.g f28wm
+  });
+
+ 
+    //  gateway.transaction.sale({
+    //     amount: ChargedAmount,
+    //     paymentMethodNonce: nonceFromTheClient,
+    //     options: {
+    //       submitForSettlement: true
+    //     }
+    //   }, function (err, result) {
+    //     console.log(result);
+    //     res.send(result);
+    //   });  
 
   });
 
