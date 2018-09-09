@@ -33,6 +33,31 @@ app.get('/',function(req,res){
 
 //braintree
 var braintree = require("braintree");
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'consultant.iepone@gmail.com',
+    pass: 'P@ssw0rd@123'
+  }
+});
+app.post("/sendemail", function (req, res) {
+  var serverURL = req.body.serverURL;
+  var mailTo = req.body.mailTo;
+  var mailOptions = {
+    from: 'consultant.web@iepone.com',
+    to: mailTo,
+    subject: 'Verification Link IEPONE',
+    html: 'click  <a href='+serverURL+'>here</a> to verify. <br> Thanks, <br> IEPONE Team'
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      res.send('success');
+    }
+  });
+});
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
