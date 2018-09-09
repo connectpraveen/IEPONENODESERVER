@@ -81,7 +81,9 @@ app.get("/client_token", function (req, res) {
 });  
 app.post("/checkout", function (req, res) {
   var uniq=new Date().getTime();
+  console.log(req.body);
    var nonceFromTheClient = req.body.nonce;
+   var price=req.body.chargeAmount;
    gateway.customer.create({
     firstName:'IEPONE',
     lastName:uniq,
@@ -94,12 +96,12 @@ app.post("/checkout", function (req, res) {
     // e.g 160923
     gateway.subscription.create({
       paymentMethodToken: result.customer.paymentMethods[0].token,
-      planId: "jkxg"
+      planId: "jkxg",
+      price: price,
     }, function (err, result) {
       res.send(result);
     });
-    
-    // e.g f28wm
+ 
   });
 
  
