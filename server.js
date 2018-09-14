@@ -120,6 +120,6 @@ app.post("/checkout", function (req, res) {
 
 
 //port
-app.listen('3000',function(){
-console.log('Node server listning on PORT 3000!');
+app.listen('8080',function(){
+console.log('Node server listning on PORT 8080!');
 });
