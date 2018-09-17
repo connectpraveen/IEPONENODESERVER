@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Origin', 'https://iepone-qa-account-web.appspot.com');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -61,9 +61,9 @@ app.post("/sendemail", function (req, res) {
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId: "q3w4qgfjc3h3cv7f",
-  publicKey: "ghm559w9cmckhb9s",
-  privateKey: "1a23acfa0df66539fe424d4e839545cf"
+  merchantId:   '2mzpv3zhr3p8nyfp',
+  publicKey:    'wjp8336hkhghbsfz',
+  privateKey:   '51e25215364fe8d447e5e69ba0aba8e6'
 });
 gateway.clientToken.generate({
   }, function (err, response) {
@@ -79,6 +79,7 @@ app.get("/client_token", function (req, res) {
       res.send(Ctoken);
     });
 });  
+
 app.post("/checkout", function (req, res) {
   var uniq=new Date().getTime();
   console.log(req.body);
@@ -96,7 +97,7 @@ app.post("/checkout", function (req, res) {
     // e.g 160923
     gateway.subscription.create({
       paymentMethodToken: result.customer.paymentMethods[0].token,
-      planId: "jkxg",
+      planId: "iepone-qa-subscription",
       price: price,
     }, function (err, result) {
       res.send(result);
