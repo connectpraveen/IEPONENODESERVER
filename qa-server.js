@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'https://iepone-account-web.appspot.com');
+  res.setHeader('Access-Control-Allow-Origin', 'https://iepone-qa-account-web.appspot.com');    
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
@@ -60,9 +60,9 @@ app.post("/sendemail", function (req, res) {
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId:   '9y7n444xd5sckv3g',
-  publicKey:    'ndt38dhdrygqwrt6',
-  privateKey:   '39a49e76f9e487e8f12f38405806ea60'
+  merchantId:   '2mzpv3zhr3p8nyfp',
+  publicKey:    'wjp8336hkhghbsfz',
+  privateKey:   '51e25215364fe8d447e5e69ba0aba8e6'
 });
 gateway.clientToken.generate({
   }, function (err, response) {
@@ -96,7 +96,7 @@ app.post("/checkout", function (req, res) {
     // e.g 160923
     gateway.subscription.create({
       paymentMethodToken: result.customer.paymentMethods[0].token,
-      planId: "iepone-subscription",
+      planId: "iepone-qa-subscription",
       price: price,
     }, function (err, result) {
       res.send(result);
